@@ -51,7 +51,7 @@ jobs:
           #repository: "${{env.REPOSITORY_LOWER}}/ci:${{ github.sha }}"
           repository: "${{env.REPOSITORY_LOWER}}/ci:${{env.GITHUB_SHA_7}}"
           #tag_with_sha: true
-          tag_with_ref: true
+          #tag_with_ref: true
 
 
 #    steps:
