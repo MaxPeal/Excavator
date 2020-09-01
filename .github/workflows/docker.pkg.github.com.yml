@@ -20,7 +20,7 @@ jobs:
           registry: docker.pkg.github.com
           repository: ${{ github.repository }}
           tag_with_ref: true
-    runs-on: ubuntu-latest
+
 
 #    steps:
 #    - uses: actions/checkout@v2
