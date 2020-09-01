@@ -14,6 +14,12 @@ jobs:
         #echo "::set-env name={name}::{value}"
       # https://github.com/actions/starter-workflows/issues/68
         #run: echo "::set-env name=APP_NAME::$(cat Dockerfile | grep APP_NAME= | head -n 1 | grep -o '".*"' | sed 's/"//g')"
+      - name: Set env GITHUB_SHA_7
+        #https://github.community/t/add-short-sha-to-github-context/16418
+        #run: echo "::set-env name=REPOSITORY_LOWER::$(echo $GITHUB_REPOSITORY | tr [:upper:] [:lower:])"
+        run: |
+         echo "::set-env name=GITHUB_SHA_7::$(echo ${GITHUB_SHA} | cut -c1-8))"
+         echo "GITHUB_SHA_7 ${{env.GITHUB_SHA_7}}"
       - name: Set env REPOSITORY_LOWER
         #run: echo "::set-env name=REPOSITORY_LOWER::$(echo $GITHUB_REPOSITORY | tr [:upper:] [:lower:])"
         run: |
@@ -43,8 +49,8 @@ jobs:
           #repository: $repository_lower
           #repository: "${{env.REPOSITORY_LOWER_TAG}}"
           #repository: "${{env.REPOSITORY_LOWER}}/ci:${{ github.sha }}"
-          repository: "${{env.REPOSITORY_LOWER}}/ci"
-          tag_with_sha: true
+          repository: "${{env.REPOSITORY_LOWER}}/ci:${{env.GITHUB_SHA_7}}"
+          #tag_with_sha: true
           tag_with_ref: true
 
 
