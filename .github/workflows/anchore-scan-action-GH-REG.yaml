@@ -1,22 +1,23 @@
 name: anchore-scan-action-GH-REG
-on: [push]
+#on: [push]
 #on:
 #  registry_package:
 #    #types: [published]
 #    types: [published, updated]
 #    # https://docs.github.com/en/actions/reference/events-that-trigger-workflows#registry_package
-#on: [registry_package]
+on: [registry_package]
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag localbuild/testimage:latest
+    #- name: Build the Docker image
+    #  run: docker build . --file Dockerfile --tag localbuild/testimage:latest
     # https://github.com/marketplace/actions/anchore-container-scan
     - uses: anchore/scan-action@v1
       with:
-        image-reference: "localbuild/testimage:latest"
+        #image-reference: "localbuild/testimage:latest"
+        image-reference: "docker.pkg.github.com/maxpeal/excavator/ci:latest"
         dockerfile-path: "Dockerfile"
         fail-build: true
         acs-report-enable: true
