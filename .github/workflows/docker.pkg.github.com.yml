@@ -9,6 +9,14 @@ jobs:
     name: Push Docker image to docker.pkg.github.com
     runs-on: ubuntu-latest
     steps:
+      - name: Set selected color
+        run: echo '::set-env name=SELECTED_COLOR::green'
+      - name: Get color
+        run: echo 'The selected color is' $SELECTED_COLOR
+      - name: tr to lowercase selected color
+        run: |
+         repository_lower=$(echo '${{ github.repository }} | tr [:upper:] [:lower:]')
+         echo '::set-env name=REPOSITORY_LOWER::$repository_lower' 
       - name: Check out the repo
         uses: actions/checkout@v2
       - name: Push to docker.pkg.github.com
@@ -18,7 +26,8 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: docker.pkg.github.com
-          repository: ${{ github.repository }}
+          #repository: ${{ github.repository }}
+          repository: $repository_lower
           tag_with_ref: true
 
 
