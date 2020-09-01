@@ -5,7 +5,11 @@ name: anchore-scan-action-GH-REG
 #    #types: [published]
 #    types: [published, updated]
 #    # https://docs.github.com/en/actions/reference/events-that-trigger-workflows#registry_package
-on: [registry_package]
+#on: [registry_package]
+on:
+  registry_package:
+    # Only use the types keyword to narrow down the activity types that will trigger your workflow.
+    types: [published, updated]
 jobs:
   build:
     runs-on: ubuntu-latest
