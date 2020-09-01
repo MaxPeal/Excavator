@@ -11,12 +11,17 @@ jobs:
     steps:
       - name: Set selected color
         run: echo '::set-env name=SELECTED_COLOR::green'
+        #echo "::set-env name={name}::{value}"
+      # https://github.com/actions/starter-workflows/issues/68
+        #run: echo "::set-env name=APP_NAME::$(cat Dockerfile | grep APP_NAME= | head -n 1 | grep -o '".*"' | sed 's/"//g')"
+      - name: Set env REPOSITORY_LOWER
+        run: echo "::set-env name=REPOSITORY_LOWER::$(echo $GITHUB_REPOSITORY | tr [:upper:] [:lower:])"
       - name: Get color
         run: echo 'The selected color is' $SELECTED_COLOR
       - name: tr to lowercase selected color
         run: |
-         repository_lower=$(echo '${{ github.repository }} | tr [:upper:] [:lower:]')
-         echo '::set-env name=REPOSITORY_LOWER::$repository_lower' 
+         repository_lower2=$(echo '${{ github.repository }} | tr [:upper:] [:lower:]')
+         echo '::set-env name=REPOSITORY_LOWER2::$repository_lower2' 
       - name: Check out the repo
         uses: actions/checkout@v2
       - name: Push to docker.pkg.github.com
@@ -27,7 +32,8 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: docker.pkg.github.com
           #repository: ${{ github.repository }}
-          repository: $repository_lower
+          #repository: $repository_lower
+          repository: ${{ REPOSITORY_LOWER }}
           tag_with_ref: true
 
 
