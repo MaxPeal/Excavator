@@ -32,7 +32,8 @@ ENV GIT_USERNAME= \
 # install curl
 RUN apt-get update && apt-get install -y --no-install-recommends \
       curl \
-      && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+      ca-certificates \
+      && update-ca-certificates && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Download the Microsoft repository GPG keys
 RUN curl -L -O https://packages.microsoft.com/config/ubuntu/${POWERSHELL_BUILD}/packages-microsoft-prod.deb
