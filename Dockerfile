@@ -37,7 +37,7 @@ RUN dpkg -i packages-microsoft-prod.deb
 
 # Install dependencies and clean up
 RUN apt-get update \
-    # && apt-get upgrade -y \
+    && apt-get upgrade -y \
     && apt-cache search powershell \
     && apt-get install -y --no-install-recommends \
         git \
