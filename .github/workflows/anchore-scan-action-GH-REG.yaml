@@ -20,9 +20,7 @@ name: anchore-scan-action-GH-REG
 on:
   workflow_run:
     workflows: ["docker.pkg.github.com"]
-    types: 
-      - completed
-      - requested
+    types: [completed]
 jobs:
   build:
     runs-on: ubuntu-latest
