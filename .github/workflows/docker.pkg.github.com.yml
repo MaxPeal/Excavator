@@ -33,7 +33,7 @@ jobs:
           registry: docker.pkg.github.com
           #repository: ${{ github.repository }}
           #repository: $repository_lower
-          repository: ${{ REPOSITORY_LOWER }}
+          repository: "${{env.REPOSITORY_LOWER}}"
           tag_with_ref: true
 
 
