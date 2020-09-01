@@ -47,19 +47,21 @@ jobs:
     # https://github.com/marketplace/actions/anchore-container-scan
     - name: do Docker login on https://docker.pkg.github.com
       run: echo ${{ secrets.GITHUB_TOKEN }} | docker login https://docker.pkg.github.com -u $GITHUB_ACTOR --password-stdin
+    - name: do Docker pull on https://docker.pkg.github.com
+      run: docker pull "docker.pkg.github.com/${{env.REPOSITORY_LOWER}}/ci:${{env.GITHUB_SHA_7}}"
     - uses: anchore/scan-action@v1
       with:
         #image-reference: "localbuild/testimage:latest"
         #image-reference: "docker.pkg.github.com/maxpeal/excavator/ci:latest"
         image-reference: "docker.pkg.github.com/${{env.REPOSITORY_LOWER}}/ci:${{env.GITHUB_SHA_7}}"
         dockerfile-path: "Dockerfile"
-        fail-build: true
+        #fail-build: true
         acs-report-enable: true
-        debug: true
+        #debug: true
         #acs-report-severity-cutoff: "Medium"
-        #include-app-packages: true
-    #- name: anchore inline scan JSON results
-    #  run: for j in `ls ./anchore-reports/*.json`; do echo "---- ${j} ----"; cat ${j}; echo; done
+        include-app-packages: true
+    - name: anchore inline scan JSON results
+      run: for j in `ls ./anchore-reports/*.json`; do echo "---- ${j} ----"; cat ${j}; echo; done
     - name: anchore action SARIF report
       run: cat results.sarif
     - name: upload Anchore scan SARIF report
