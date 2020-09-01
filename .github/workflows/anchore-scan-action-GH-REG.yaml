@@ -45,6 +45,8 @@ jobs:
     #- name: Build the Docker image
     #  run: docker build . --file Dockerfile --tag localbuild/testimage:latest
     # https://github.com/marketplace/actions/anchore-container-scan
+    - name: do Docker login on https://docker.pkg.github.com
+      run: echo ${{ secrets.GITHUB_TOKEN }} | docker login https://docker.pkg.github.com -u $GITHUB_ACTOR --password-stdin
     - uses: anchore/scan-action@v1
       with:
         #image-reference: "localbuild/testimage:latest"
