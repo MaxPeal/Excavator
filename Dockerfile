@@ -1,4 +1,4 @@
-FROM phusion/baseimage:0.11
+FROM phusion/baseimage:18.04-1.0.0
 # TEST Dockerfile
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init"]
