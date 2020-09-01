@@ -13,7 +13,7 @@ jobs:
     - uses: Azure/container-scan@v0
       with:
         image-name: excavator:${{ github.sha }}
-        severity-threshold: MEDIUM
+        severity-threshold: UNKNOWN
         run-quality-checks: true
 # This is a basic workflow to help you get started with Actions
 
