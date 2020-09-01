@@ -14,6 +14,7 @@ jobs:
         dockerfile-path: "Dockerfile"
         fail-build: true
         acs-report-enable: true
+        debug: true
         #acs-report-severity-cutoff: "Medium"
         #include-app-packages: true
     #- name: anchore inline scan JSON results
