@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: anchore-scan-action
 on: [push]
 jobs:
   build:
@@ -12,11 +12,11 @@ jobs:
       with:
         image-reference: "localbuild/testimage:latest"
         dockerfile-path: "Dockerfile"
-        fail-build: true
+        #fail-build: true
         acs-report-enable: true
-        debug: true
+        #debug: true
         #acs-report-severity-cutoff: "Medium"
-        #include-app-packages: true
+        include-app-packages: true
     #- name: anchore inline scan JSON results
     #  run: for j in `ls ./anchore-reports/*.json`; do echo "---- ${j} ----"; cat ${j}; echo; done
     - name: anchore action SARIF report
