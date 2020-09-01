@@ -41,17 +41,20 @@ jobs:
       run: |
        echo "::set-env name=REPOSITORY_LOWER_TAG::$(echo $GITHUB_REPOSITORY/ci | tr [:upper:] [:lower:])"
        echo "REPOSITORY_LOWER ${{env.REPOSITORY_LOWER_TAG}}"
-    - name: Check out the repo
-    - uses: actions/checkout@master
+    #- name: Check out the repo
+    #- uses: actions/checkout@master
+    - uses: actions/checkout@v2
+    - name: do Docker login on https://docker.pkg.github.com
+      run: echo ${{ secrets.GITHUB_TOKEN }} | docker login https://docker.pkg.github.com -u $GITHUB_ACTOR --password-stdin
     #- run: docker build . -t excavator:${{ github.sha }}
     - uses: Azure/container-scan@v0
-      # https://github.com/Azure/container-scan
       with:
+        # https://github.com/Azure/container-scan
         #image-name: excavator:${{ github.sha }}
         #image-name: "docker.pkg.github.com/maxpeal/excavator/ci:latest"
         image-name: "docker.pkg.github.com/${{env.REPOSITORY_LOWER}}/ci:${{env.GITHUB_SHA_7}}"
         severity-threshold: UNKNOWN
         run-quality-checks: true
-        username: ${{GITHUB_ACTOR}}
-        password: ${{ secrets.GITHUB_TOKEN }}
+        #username: ${{GITHUB_ACTOR}}
+        #password: ${{ secrets.GITHUB_TOKEN }}
 
