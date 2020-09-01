@@ -30,7 +30,7 @@ ENV GIT_USERNAME= \
     UPSTREAM=
 
 # install curl
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && apt list --upgradable && apt-get install -y --no-install-recommends \
       curl \
       ca-certificates \
       gnupg1 \
@@ -45,10 +45,13 @@ RUN export VERSION_ID=$(awk -F= '$1=="VERSION_ID" { print $2 ;}' /etc/*_ver* /et
 
 # Install dependencies and clean up
 RUN apt-get update \
+    && apt list --upgradable \
     # && apt-get upgrade -y \
     && apt-cache search powershell \
     && apt-get install -y --no-install-recommends \
         git \
+        cron \
+        runit \
         powershell \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
