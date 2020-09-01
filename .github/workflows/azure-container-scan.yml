@@ -1,6 +1,7 @@
 name: azure-container-scan
 
-on: [push, pull_request]
+#on: [push, pull_request]
+on: [push]
 
 jobs:
   build-secure-and-push:
