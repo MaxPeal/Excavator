@@ -42,8 +42,10 @@ jobs:
           #repository: ${{ github.repository }}
           #repository: $repository_lower
           #repository: "${{env.REPOSITORY_LOWER_TAG}}"
-          repository: "${{env.REPOSITORY_LOWER}}:${{ github.sha }}"
-          tag_with_ref: true
+          #repository: "${{env.REPOSITORY_LOWER}}/ci:${{ github.sha }}"
+          repository: "${{env.REPOSITORY_LOWER}}/ci"
+          tag_with_sha: true
+          #tag_with_ref: true
 
 
 #    steps:
