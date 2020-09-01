@@ -21,15 +21,17 @@ jobs:
       run: |
        echo "::set-env name=REPOSITORY_LOWER_TAG::$(echo $GITHUB_REPOSITORY/ci | tr [:upper:] [:lower:])"
        echo "REPOSITORY_LOWER ${{env.REPOSITORY_LOWER_TAG}}"
+    - name: do Docker login on https://docker.pkg.github.com
+      run: echo ${{ secrets.GITHUB_TOKEN }} | docker login https://docker.pkg.github.com -u $GITHUB_ACTOR --password-stdin
     #- name: Build the Docker imageg
     #  run: docker build . --file Dockerfile --tag localbuild/testimage:latest
-    - name: Push to docker.pkg.github.com
+    - name: build docker with docker/build-push-action
     # https://github.com/marketplace/actions/build-and-push-docker-images#tag_with_ref
       uses: docker/build-push-action@v1
       with:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-        registry: docker.pkg.github.com
+        #username: ${{ github.actor }}
+        #password: ${{ secrets.GITHUB_TOKEN }}
+        #registry: docker.pkg.github.com
         #repository: ${{ github.repository }}
         #repository: $repository_lower
         #repository: "${{env.REPOSITORY_LOWER_TAG}}"
@@ -41,7 +43,7 @@ jobs:
         tags: latest
         push: false
         #cache_froms: myorg/baseimage:latest
-        cache_froms: "${{env.REPOSITORY_LOWER}}/ci,${{env.REPOSITORY_LOWER}}/ci:${{env.GITHUB_SHA_7}},${{env.REPOSITORY_LOWER}}/ci:last"
+        cache_froms: "docker.pkg.github.com/${{env.REPOSITORY_LOWER}}/ci,docker.pkg.github.com/${{env.REPOSITORY_LOWER}}/ci:${{env.GITHUB_SHA_7}},docker.pkg.github.com/${{env.REPOSITORY_LOWER}}/ci:last"
         #tag_with_sha: true
         #tag_with_ref: true      
     # https://github.com/marketplace/actions/anchore-container-scan
