@@ -2,20 +2,46 @@ name: azure-container-scan-GH-REG
 #on: [push, pull_request]
 #on: [push]
 #    # https://docs.github.com/en/actions/reference/events-that-trigger-workflows#registry_package
-on: [registry_package]
-
+#on: [registry_package]
+#on:
+#  workflow_run:
+#    workflows: ["Run Tests"]
+#    branches: [main]
+#    types: 
+#      - completed
+#      - requested
+on:
+  workflow_run:
+    workflows: ["docker.pkg.github.com"]
+    types: [completed]
 jobs:
   build-secure-and-push:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
-
-    #- run: docker build . -t excavator:${{ github.sha }}
-      
-    - uses: Azure/container-scan@v0
-      with:
-        #image-name: excavator:${{ github.sha }}
-        image-name: "docker.pkg.github.com/maxpeal/excavator/ci:latest"
-        severity-threshold: UNKNOWN
-        run-quality-checks: true
+      - name: Set env GITHUB_SHA_7
+        #https://github.community/t/add-short-sha-to-github-context/16418
+        #run: echo "::set-env name=REPOSITORY_LOWER::$(echo $GITHUB_REPOSITORY | tr [:upper:] [:lower:])"
+        run: |
+         echo "::set-env name=GITHUB_SHA_7::$(echo ${GITHUB_SHA} | cut -c1-8)"
+         echo "GITHUB_SHA_7 ${{env.GITHUB_SHA_7}}"
+      - name: Set env REPOSITORY_LOWER
+        #run: echo "::set-env name=REPOSITORY_LOWER::$(echo $GITHUB_REPOSITORY | tr [:upper:] [:lower:])"
+        run: |
+         echo "::set-env name=REPOSITORY_LOWER::$(echo $GITHUB_REPOSITORY | tr [:upper:] [:lower:])"
+         echo "REPOSITORY_LOWER ${{env.REPOSITORY_LOWER}}"
+      - name: Set env REPOSITORY_LOWER_TAG
+        #run: echo "::set-env name=REPOSITORY_LOWER::$(echo $GITHUB_REPOSITORY | tr [:upper:] [:lower:])"
+        run: |
+         echo "::set-env name=REPOSITORY_LOWER_TAG::$(echo $GITHUB_REPOSITORY/ci | tr [:upper:] [:lower:])"
+         echo "REPOSITORY_LOWER ${{env.REPOSITORY_LOWER_TAG}}"
+      - name: Check out the repo
+      - uses: actions/checkout@master
+    #- run: docker build . -t excavator:${{ github.sha }
+      - uses: Azure/container-scan@v0
+        with:
+          #image-name: excavator:${{ github.sha }}
+          #image-name: "docker.pkg.github.com/maxpeal/excavator/ci:latest"
+          image-name: "docker.pkg.github.com/${{env.REPOSITORY_LOWER}}/ci:${{env.GITHUB_SHA_7}}"
+          severity-threshold: UNKNOWN
+          run-quality-checks: true
 # This is a basic workflow to help you get started with Actions
