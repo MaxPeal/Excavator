@@ -1,4 +1,4 @@
-FROM phusion/baseimage:0.11
+FROM phusion/baseimage:18.04-1.0.0
 
 LABEL org.label-schema.maintainer="Richard Kuhnt <r15ch13+git@gmail.com>" \
       org.label-schema.description="Base image for Scoop update services" \
