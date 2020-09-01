@@ -64,7 +64,8 @@ RUN git config --global core.autocrlf true \
     && git clone https://github.com/lukesampson/scoop /root/scoop --depth=1
 
 # Add fixed Scoop environment variables
-RUN echo '/root/scoop' > /etc/container_environment/SCOOP \
+RUN mkdir /etc/container_environment \
+    && echo '/root/scoop' > /etc/container_environment/SCOOP \
     && echo '/root/scoop' > /etc/container_environment/SCOOP_HOME \
     && echo '/root/cache' > /etc/container_environment/SCOOP_CACHE
 
