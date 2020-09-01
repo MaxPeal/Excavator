@@ -49,7 +49,9 @@ jobs:
           #repository: $repository_lower
           #repository: "${{env.REPOSITORY_LOWER_TAG}}"
           #repository: "${{env.REPOSITORY_LOWER}}/ci:${{ github.sha }}"
-          repository: "${{env.REPOSITORY_LOWER}}/ci:${{env.GITHUB_SHA_7}}"
+          #repository: "${{env.REPOSITORY_LOWER}}/ci:${{env.GITHUB_SHA_7}}"
+          repository: "${{env.REPOSITORY_LOWER}}/ci"
+          tags: ${{env.GITHUB_SHA_7}}
           #tag_with_sha: true
           #tag_with_ref: true
 
