@@ -6,10 +6,23 @@ name: anchore-scan-action-GH-REG
 #    types: [published, updated]
 #    # https://docs.github.com/en/actions/reference/events-that-trigger-workflows#registry_package
 #on: [registry_package]
+#on:
+#  registry_package:
+#    # Only use the types keyword to narrow down the activity types that will trigger your workflow.
+#    types: [published, updated]
+#on:
+#  workflow_run:
+#    workflows: ["Run Tests"]
+#    branches: [main]
+#    types: 
+#      - completed
+#      - requested
 on:
-  registry_package:
-    # Only use the types keyword to narrow down the activity types that will trigger your workflow.
-    types: [published, updated]
+  workflow_run:
+    workflows: ["docker.pkg.github.com"]
+    types: 
+      - completed
+      - requested
 jobs:
   build:
     runs-on: ubuntu-latest
