@@ -1,0 +1,19 @@
+name: azure-container-scan
+
+on: [push, pull_request]
+
+jobs:
+  build-secure-and-push:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+
+    - run: docker build . -t excavator:${{ github.sha }}
+      
+    - uses: Azure/container-scan@v0
+      with:
+        image-name: excavator:${{ github.sha }}
+        severity-threshold: MEDIUM
+        run-quality-checks: true
+# This is a basic workflow to help you get started with Actions
+
