@@ -33,13 +33,15 @@ ENV GIT_USERNAME= \
 RUN apt-get update && apt-get install -y --no-install-recommends \
       curl \
       ca-certificates \
+      gnupg1 \
       && update-ca-certificates && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Download the Microsoft repository GPG keys
-RUN curl -L -O https://packages.microsoft.com/config/ubuntu/${POWERSHELL_BUILD}/packages-microsoft-prod.deb
-
-# Register the Microsoft repository GPG keys
-RUN dpkg -i packages-microsoft-prod.deb
+RUN curl -sSL https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+# Add the Microsoft repository to apt
+RUN export VERSION_ID=$(awk -F= '$1=="VERSION_ID" { print $2 ;}' /etc/*_ver* /etc/*-rel* | sed -e 's/[^[a-zA-Z0-9.]//g') && \
+        export ID=$(awk -F= '$1=="ID" { print $2 ;}' /etc/*_ver* /etc/*-rel* | sed -e 's/[^[a-zA-Z0-9.]//g') && \
+        curl -sSL https://packages.microsoft.com/config/${ID}/${VERSION_ID}/prod.list | tee /etc/apt/sources.list.d/microsoft-prod.list
 
 # Install dependencies and clean up
 RUN apt-get update \
