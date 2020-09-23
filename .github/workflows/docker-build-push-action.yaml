@@ -66,6 +66,14 @@ jobs:
         name: Available qemu.outputs.platforms 
         run: echo ${{ steps.qemu.outputs.platforms }}
       -
+        name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+      -
         name: Login to GitHub Packages Docker Registry
         uses: docker/login-action@v1
         with:
@@ -77,6 +85,8 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v2
         with:
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache
           context: .
           file: ./Dockerfile
           platforms: linux/amd64,linux/arm64,linux/arm
@@ -91,3 +101,6 @@ jobs:
             org.opencontainers.image.created=${{ steps.prep.outputs.created }}
             org.opencontainers.image.revision=${{ github.sha }}
             org.opencontainers.image.licenses=${{ github.event.repository.license.spdx_id }}
+      -
+        name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
