@@ -27,7 +27,7 @@ jobs:
     #  run: docker build . --file Dockerfile --tag localbuild/testimage:latest
     - name: build docker with docker/build-push-action
     # https://github.com/marketplace/actions/build-and-push-docker-images#tag_with_ref
-      uses: docker/build-push-action@v1
+      uses: docker/build-push-action@v2.2.2
       with:
         #username: ${{ github.actor }}
         #password: ${{ secrets.GITHUB_TOKEN }}
