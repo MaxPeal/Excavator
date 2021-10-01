@@ -49,7 +49,7 @@ jobs:
       run: echo ${{ secrets.GITHUB_TOKEN }} | docker login https://docker.pkg.github.com -u $GITHUB_ACTOR --password-stdin
     - name: do Docker pull on https://docker.pkg.github.com
       run: docker pull "docker.pkg.github.com/${{env.REPOSITORY_LOWER}}/ci:${{env.GITHUB_SHA_7}}"
-    - uses: anchore/scan-action@v1
+    - uses: anchore/scan-action@v3.1.0
       with:
         #image-reference: "localbuild/testimage:latest"
         #image-reference: "docker.pkg.github.com/maxpeal/excavator/ci:latest"
