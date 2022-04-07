@@ -8,7 +8,7 @@ jobs:
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag localbuild/testimage:latest
     # https://github.com/marketplace/actions/anchore-container-scan
-    - uses: anchore/scan-action@v1
+    - uses: anchore/scan-action@v3.2.3
       with:
         image-reference: "localbuild/testimage:latest"
         dockerfile-path: "Dockerfile"
